@@ -7,7 +7,17 @@
 - k8s版本：1.27.3
 - 容器运行时：containerd
 
-## 1、修改kube-scheduler.yaml文件
+## 1、
+
+``````
+#在所有有GPU的节点上打上标签
+kubectl label node <你的GPU节点> nvidia-device-enable=enable
+#在master节点上复制yamlfile文件夹中的文件到指定文件夹
+cp scheduler-extender.yaml /etc/kubernetes
+cp scheduler-policy-config.json /etc/kubernetes
+``````
+
+## 2、修改kube-scheduler.yaml文件
 
 - 备份kube-scheduler.yaml文件
 
@@ -53,17 +63,6 @@ volumes:
       path: /etc/kubernetes/scheduler-policy-config.json
       type: FileOrCreate
     name: extender-policy
-``````
-
-## 2、
-
-``````
-kubectl create sa gpu-manager -n kube-system
-kubectl create clusterrolebinding gpu-manager-role --clusterrole=cluster-admin --serviceaccount=kube-system:gpu-manager
-kubectl label node <你的GPU节点> nvidia-device-enable=enable
-
-cp scheduler-extender.yaml /etc/kubernetes
-cp scheduler-policy-config.json /etc/kubernetes
 ``````
 
 ## 3、
