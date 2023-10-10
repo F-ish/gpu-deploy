@@ -25,6 +25,7 @@ ctr -n=k8s.io image import fish-vcuda.tar
 
 git clone https://github.com/F-ish/gpu-manager.git
 cd gpu-manager
+make
 make img
 cd ../
 docker save fish/gpu-manager:1.0.0 -o fish-manager.tar
